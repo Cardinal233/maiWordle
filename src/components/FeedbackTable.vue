@@ -77,7 +77,7 @@ function colorClass(status) {
     1fr    /* ds */
     1fr    /* bpm */
     2fr  /* genre */
-    2fr  /* from */
+    3fr  /* from */
     2fr    /* level */
     2fr;   /* charter */
   gap: 6px;

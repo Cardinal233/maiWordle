@@ -26,9 +26,6 @@ import SelectSongInfo from './components/selectSongInfo.vue'
 import FeedbackTable from './components/feedbackTable.vue'
 import FinalResult from './components/FinalResult.vue'
 
-
-const answer = randomSong()
-
 const {
   currentSong,
   feedbackList,
@@ -37,7 +34,7 @@ const {
   resultMessage,
   judgeGuess,
   resetGame
-} = useGameLogic(answer, charterAlias)
+} = useGameLogic(charterAlias)
 
 function onSongSelected(song) {
   currentSong.value = song

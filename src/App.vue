@@ -43,7 +43,9 @@ function onSongSelected(song) {
 const query = ref('')
 function submitGuess() {
   judgeGuess(currentSong.value, judgeFn)
-  query.value = '' // ✅ 清空输入内容
+  // ✅ 清空搜索框内容与候选歌曲
+  query.value = '' 
+  currentSong.value = null
 }
 </script>
 

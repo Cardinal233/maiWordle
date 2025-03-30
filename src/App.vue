@@ -3,7 +3,7 @@
       <h1 class="title">maiWordle</h1>
 
       <div class="search-section">
-        <SongSearchInput @select="onSongSelected" />
+        <SongSearchInput v-model="query" @select="onSongSelected" />
         <button @click="submitGuess" class="submit-button">提交猜测</button>
       </div>
 
@@ -17,9 +17,9 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { useGameLogic } from './composables/gameLogic'
 import { judgeGuess as judgeFn } from './composables/jugder'
-import {randomSong} from './composables/randomSong'
 import charterAlias from './assets/charter.json'
 import SongSearchInput from './components/SearchInput.vue'
 import SelectSongInfo from './components/selectSongInfo.vue'
@@ -40,8 +40,10 @@ function onSongSelected(song) {
   currentSong.value = song
 }
 
+const query = ref('')
 function submitGuess() {
   judgeGuess(currentSong.value, judgeFn)
+  query.value = '' // ✅ 清空输入内容
 }
 </script>
 

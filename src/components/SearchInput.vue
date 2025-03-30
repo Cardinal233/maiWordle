@@ -1,38 +1,50 @@
 // 搜索输入组件：模糊匹配 + 歌曲名补全
 <template>
   <div class="search-bar">
-    <input v-model="query" @input="onInput" @focus="showSuggestions = true" @blur="onBlur" placeholder="输入歌曲名..."
+    <input       
+      :value="modelValue"
+      @input="updateQuery"
+      @focus="showSuggestions = true"
+      @blur="onBlur"
+      placeholder="输入歌曲名..."
       class="search-input" />
     <ul v-if="showSuggestions && filteredSongs.length" class="suggestion-list">
       <li v-for="song in filteredSongs" :key="song.cid" @mousedown.prevent="selectSong(song)" class="suggestion-item">
-        {{ song.title + " ["+ song.type +"] " + song.level }}
+        {{ song.title + " [" + song.type + "] " + song.level }}
       </li>
     </ul>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import {songList} from '../composables/songs'
+import { computed, ref } from 'vue'
+import { songList } from '../composables/songs'
 
-const emit = defineEmits(['select'])
-const query = ref('')
+const props = defineProps({
+  modelValue: {
+    type: String,
+    default: ''
+  }
+})
+const emit = defineEmits(['update:modelValue', 'select'])
+
 const showSuggestions = ref(false)
 
-const filteredSongs = computed(() => {
-  return songList.filter(song =>
-    song.title.toLowerCase().includes(query.value.toLowerCase())
+const filteredSongs = computed(() =>
+  songList.filter(song =>
+    song.title.toLowerCase().includes(props.modelValue.toLowerCase())
   )
-})
+)
 
-function selectSong(song) {
-  query.value = song.title
-  showSuggestions.value = false
-  emit('select', song)
+function updateQuery(event) {
+  emit('update:modelValue', event.target.value)
+  showSuggestions.value = true
 }
 
-function onInput() {
-  showSuggestions.value = true
+function selectSong(song) {
+  emit('update:modelValue', song.title)
+  emit('select', song)
+  showSuggestions.value = false
 }
 
 function onBlur() {

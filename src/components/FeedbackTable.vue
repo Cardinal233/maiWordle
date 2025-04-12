@@ -44,8 +44,8 @@ function fieldLabel(field) {
 // 显示文字内容
 function displayValue(value, field, feedback) {
     // 只有 ds 和 bpm 可能带方向
-    if ((field === 'ds' || field === 'bpm') && feedback[`${field}_direction`]) {
-        const direction = feedback[`${field}_direction`]
+    if ((field === 'ds' || field === 'bpm' || field === 'from') && feedback[`${field}Direction`]) {
+        const direction = feedback[`${field}Direction`]
         if (direction === 'up') return `${value} ↑`
         if (direction === 'down') return `${value} ↓`
     }
@@ -94,7 +94,14 @@ function colorClass(status) {
   text-overflow: ellipsis;              /* ✅ 水平居中 */
   direction: ltr;                  /* ✅ 优先显示左边，右侧截断 */
 }
-
+@media (max-width: 900px) {
+  .cell {
+    white-space: normal;       /* ✅ 允许换行 */
+    overflow: visible;         /* ✅ 不裁剪内容 */
+    text-overflow: unset;
+    word-break: break-word;    /* ✅ 断词换行 */
+  }
+}
 
 /* 颜色样式 */
 .cell-correct {

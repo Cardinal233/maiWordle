@@ -8,6 +8,7 @@ export function useGameLogic(charterAlias) {
   const resultTitle = ref('')
   const resultMessage = ref('')
   const answer = ref(randomSong())
+  const selectedSong = ref(null)
   console.log('🎲 当前随机歌曲 answer:', answer.value)
 
   function judgeGuess(song, judgeFn) {
@@ -37,6 +38,7 @@ export function useGameLogic(charterAlias) {
     showResult.value = false
     resultTitle.value = ''
     resultMessage.value = ''
+    selectedSong.value = null
   }
 
   return {
@@ -45,6 +47,7 @@ export function useGameLogic(charterAlias) {
     showResult,
     resultTitle,
     resultMessage,
+    selectedSong,
     judgeGuess,
     resetGame,
   }

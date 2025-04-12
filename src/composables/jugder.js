@@ -16,11 +16,35 @@ function compareCharter(guessCharter, answerCharter, charterAliasMap) {
             return 'close';
         }
     }
-
     return 'wrong';
 }
 
-function getDirection(diff) {
+const seriesOrder = [
+    'maimai',
+    'maimai PLUS',
+    'maimai GreeN',
+    'maimai GreeN PLUS',
+    'maimai ORANGE',
+    'maimai ORANGE PLUS',
+    'maimai PiNK',
+    'maimai PiNK PLUS',
+    'maimai MURASAKi',
+    'maimai MURASAKi PLUS',
+    'maimai MiLK',
+    'maimai MiLK PLUS',
+    'maimai FiNALE',
+    'maimai DX',
+    'maimai DX PLUS',
+    'maimai DX Splash',
+    'maimai DX Splash PLUS',
+    'maimai DX UNiVERSE',
+    'maimai DX UNiVERSE PLUS',
+    'maimai DX FESTiVAL',
+    'maimai DX FESTiVAL PLUS',
+    'maimai DX BUDDiES'
+  ]
+
+  function getDirection(diff) {
     if (diff === 0) {
         return 'none';
     } else if (diff > 0) {
@@ -42,7 +66,7 @@ export function judgeGuess(guess, answer, charterAliasMap) {
     } else {
         result.ds = 'wrong';
     }
-    result.ds_direction = getDirection(dsDiff);
+    result.dsDirection = getDirection(dsDiff);
 
     // BPM判断
     const bpmDiff = answer.bpm - guess.bpm;
@@ -53,13 +77,25 @@ export function judgeGuess(guess, answer, charterAliasMap) {
     } else {
         result.bpm = 'wrong';
     }
-    result.bpm_direction = getDirection(bpmDiff);
+    result.bpmDirection = getDirection(bpmDiff);
+
+    const guessFromIndex = seriesOrder.indexOf(guess.from)
+    const answerFromIndex = seriesOrder.indexOf(answer.from)
+    const fromDiff = answerFromIndex - guessFromIndex
+    if (Math.abs(fromDiff) === 0) {
+        result.from = 'correct';
+    } else if (Math.abs(fromDiff) <= 2) {
+        result.from = 'close';
+    } else {
+        result.from = 'wrong';
+    }
+    result.fromDirection = getDirection(fromDiff);
 
     //谱师判断
     result.charter = compareCharter(guess.charter, answer.charter, charterAliasMap)
 
     //其他类目判断
-    const fields = ['genre', 'from', 'level', 'title'];
+    const fields = ['genre', 'level', 'title'];
     for (let i = 0; i < fields.length; i++) {
         const field = fields[i];
         if (guess[field] === answer[field]) {

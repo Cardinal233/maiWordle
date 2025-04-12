@@ -7,7 +7,7 @@
         <button @click="submitGuess" class="submit-button">提交猜测</button>
       </div>
 
-      <SelectSongInfo :song="currentSong" />
+      <SelectSongInfo :song="selectedSong" />
 
       <FeedbackTable v-if="feedbackList.length" :feedback-list="feedbackList" />
 
@@ -32,11 +32,13 @@ const {
   showResult,
   resultTitle,
   resultMessage,
+  selectedSong,
   judgeGuess,
   resetGame
 } = useGameLogic(charterAlias)
 
 function onSongSelected(song) {
+  selectedSong.value = song
   currentSong.value = song
 }
 
@@ -60,10 +62,10 @@ function submitGuess() {
 /* ✅ 内容容器，最大宽度 + 响应式 + 居中 */
 .main-container {
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
   background-color: #393939;
   color: #f5f5f5;
-  padding: 32px;
+  padding: 24px;
   border-radius: 12px;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
